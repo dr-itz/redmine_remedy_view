@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Remedy2Redmine" basedir="." default="help">
+	<property name="javac.source"     value="1.6"/>
+	<property name="javac.target"     value="1.6"/>
+	<property name="javac.debug"      value="on"/>
+
+	<property name="app.name"         value="Remedy2Redmine"/>
+	<property name="app.mainclass"    value="ch.dritz.remedy2redmine.Main"/>
+	<property name="app.versionfile"  value="ch/dritz/remedy2redmine/Version.java"/>
+
+	<property name="version.props" value="version.properties"/>
+
+	<!-- Set the uncustomizable properties -->
+	<property name="doc.dir"          value="doc"/>
+	<property name="bin.dir"          value="src/main/scripts"/>
+	<property name="src.dir"          value="src/main/java"/>
+	<property name="src.test.dir"     value="src/test/java"/>
+	<property name="res.dir"          value="src/main/resources"/>
+	<property name="res.test.dir"     value="src/test/resources"/>
+	<property name="lib.dir"          value="lib/main"/>
+	<property name="lib.test.dir"     value="lib/test"/>
+
+	<property name="build.dir"        value="build"/>
+	<property name="classes.dir"      value="${build.dir}/classes/main"/>
+	<property name="classes.test.dir" value="${build.dir}/classes/test"/>
+
+	<property name="dist.dir"         value="dist"/>
+
+	<property name="dist.lib.dir"     value="${dist.dir}/lib"/>
+	<property name="dist.bin.dir"     value="${dist.dir}/bin"/>
+	<property name="dist.doc.dir"     value="${dist.dir}/doc"/>
+
+	<property name="javadoc.dir"      value="${dist.doc.dir}/javadoc"/>
+	<property name="doc.pdf.dir"      value="${dist.doc.dir}/pdf"/>
+
+	<!-- how to invoke git -->
+	<condition property="git.cmd" value="git.exe" else="git">
+		<os family="windows"/>
+	</condition>
+
+	<!-- The classpaths to be used to compile, test, etc -->
+	<path id="compile.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	<path id="app.classpath">
+		<path refid="compile.classpath"/>
+		<pathelement location="${classes.dir}"/>
+	</path>
+	<path id="test.classpath">
+		<path refid="app.classpath"/>
+		<fileset dir="${lib.test.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<pathconvert property="manifest.classpath" pathsep=" ">
+		<path refid="compile.classpath"/>
+		<mapper>
+			<flattenmapper/>
+		</mapper>
+	</pathconvert>
+
+	<!-- version: generate .X from .X.template -->
+	<macrodef name="versiongen">
+		<attribute name="basedir"/>
+		<attribute name="versionfile"/>
+		<sequential>
+			<dependset>
+				<srcfileset dir="@{basedir}">
+					<include name="@{versionfile}.template"/>
+				</srcfileset>
+				<srcfileset file="${version.props}"/>
+				<targetfileset dir="@{basedir}">
+					<include name="@{versionfile}"/>
+				</targetfileset>
+			</dependset>
+			<copy file="@{versionfile}.template" tofile="@{versionfile}">
+				<filterset>
+					<filtersfile file="${version.props}"/>
+				</filterset>
+			</copy>
+		</sequential>
+	</macrodef>
+
+	<target name="-store-version-props" if="store-version">
+		<echo message="Updating ${version.props} with app.version=${git.version}"/>
+		<propertyfile file="${version.props}">
+			<entry key="app.version" value="${git.version}"/>
+		</propertyfile>
+	</target>
+	<target name="-default-version-props" if="no-git-tag">
+		<echo level="error" message="WARNING: No git tag found. Using app.version='no-version'"/>
+		<propertyfile file="${version.props}">
+			<entry key="app.version" value="no-version"/>
+		</propertyfile>
+	</target>
+
+	<target name="update-version">
+		<!-- get a new version string using git describe if possible -->
+		<exec executable="${git.cmd}" outputproperty="git.version" failifexecutionfails="false">
+			<arg value="describe"/>
+			<arg value="--tags"/>
+		</exec>
+		<echo message="git describe: ${git.version}"/>
+		<property file="${version.props}/" prefix="current."/>
+
+		<condition property="store-version">
+			<and>
+				<isset property="git.version"/>
+				<not>
+					<equals arg1="${git.version}" arg2="${current.app.version}"/>
+				</not>
+				<not>
+					<matches string="${git.version}" pattern="^fatal:"/>
+				</not>
+			</and>
+		</condition>
+		<condition property="no-git-tag">
+			<or>
+				<not>
+					<isset property="git.version"/>
+				</not>
+				<matches string="${git.version}" pattern="^fatal:"/>
+			</or>
+		</condition>
+
+		<antcall target="-store-version-props"/>
+		<antcall target="-default-version-props"/>
+
+		<property file="${version.props}/"/>
+	</target>
+
+	<!-- Default build target -->
+	<target name="init" depends="update-version">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${classes.test.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+
+		<property name="jar.name"         value="${app.name}-${app.version}.jar"/>
+		<property name="zip.name"         value="${app.name}-${app.version}.zip"/>
+		<property name="src.zip.name"     value="${app.name}-${app.version}.src.zip"/>
+	</target>
+
+	<target name="clean" description="Deletes all generated files">
+		<delete dir="${classes.dir}"/>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete file="${src.dir}/${app.versionfile}"/>
+	</target>
+
+	<target name="app-version">
+		<versiongen basedir="." versionfile="${src.dir}/${app.versionfile}"/>
+	</target>
+
+	<target name="compile" depends="init, app-version">
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"
+		       source="${javac.source}" target="${javac.target}" debug="${javac.debug}">
+			<classpath>
+				<path refid="compile.classpath"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="app" depends="compile">
+		<jar destfile="${dist.lib.dir}/${jar.name}">
+			<zipfileset dir="${classes.dir}" includes="**/*.class"/>
+			<zipfileset dir="${src.dir}">
+				<include name="**/*.properties"/>
+			</zipfileset>
+			<zipfileset dir="${res.dir}">
+				<include name="**/*"/>
+			</zipfileset>
+			<manifest>
+				<attribute name="Main-Class" value="${app.mainclass}"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- Targets for testing -->
+	<target name="compile-test" description="Compiles the unittests" depends="init, compile">
+		<copy todir="${classes.test.dir}">
+			<fileset dir="${src.test.dir}">
+				<include name="**/*.xml"/>
+			</fileset>
+		</copy>
+		<javac srcdir="${src.test.dir}" destdir="${classes.test.dir}" includeantruntime="false"
+		       source="${javac.source}" target="${javac.target}" debug="${javac.debug}">
+			<classpath>
+				<path refid="test.classpath"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="compile-test">
+		<junit fork="on" forkmode="perBatch" haltonerror="true">
+			<classpath>
+				<path refid="test.classpath"/>
+				<pathelement location="${classes.test.dir}"/>
+				<pathelement location="${res.dir}"/>
+				<pathelement location="${res.test.dir}"/>
+			</classpath>
+			<batchtest>
+				<fileset dir="${classes.test.dir}" includes="**/*Test.class"/>
+				<formatter type="brief" usefile="false"/>
+			</batchtest>
+		</junit>
+	</target>
+
+	<!-- Doc targets -->
+	<target name="javadoc">
+		<javadoc destdir="${javadoc.dir}"
+		 access="public" author="true" nodeprecated="false"
+		 nodeprecatedlist="false" noindex="false" nonavbar="false"
+		 notree="false" splitindex="true" use="true" version="true">
+			<classpath>
+				<path refid="app.classpath"/>
+			</classpath>
+			<fileset dir="${src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="zip" depends="dist">
+		<zip destfile="${dist.dir}/${zip.name}">
+			<zipfileset dir="${dist.dir}" excludes="*.zip"/>
+		</zip>
+	</target>
+
+	<target name="all" description="builds everything"
+	 depends="app">
+		<echo>Full build complete</echo>
+	</target>
+
+	<target name="doc" depends="javadoc"/>
+
+	<!-- prepares the application in a startable, ready-to-pack manner -->
+	<target name="dist" depends="all">
+		<copy todir="${dist.lib.dir}" flatten="true">
+			<path refid="compile.classpath"/>
+		</copy>
+		<copy todir="${dist.bin.dir}">
+			<fileset dir="${bin.dir}" includes="**" excludes="**/*.swp"/>
+		</copy>
+		<copy todir="${dist.doc.dir}">
+			<fileset dir="${doc.dir}">
+				<include name="**"/>
+				<exclude name="**/*.swp"/>
+				<exclude name="javadoc/**"/>
+				<exclude name="ref/**"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="distclean">
+		<delete dir="${dist.dir}"/>
+	</target>
+
+	<target name="help">
+		<echo>
+Available targets:
+- all                builds the application JAR
+- clean              cleans up generated files
+- app                compiles and assembles the JAR
+- compile            compile only
+- javadoc            build javadoc
+- dist               prepares a distribution directory
+- distclean          cleans just the dist/ directory
+		</echo>
+	</target>
+</project>
