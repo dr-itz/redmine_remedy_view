@@ -85,9 +85,12 @@ public class SyncModule
 		conversions = new Conversion[columns.length];
 
 		// pass 1: normal columns
+		ColumnDefinition lastChangeTs = null;
 		for (ColumnDefinition col : colDefinitions) {
 			if (col.isKey)
 				continue;
+			if (col.isLastChangeTs)
+				lastChangeTs = col;
 
 			if (numCols > 0) {
 				sbRead.append(", ");
@@ -137,9 +140,19 @@ public class SyncModule
 		sbRead.append(" FROM ").append(sourceTable);
 		sbInsert.append(") VALUES (").append(sbInsertBinds.toString()).append(")");
 
-		String condition = config.getString("sync.source.filter", null);
-		if (condition != null)
-			sbRead.append(" WHERE ").append(condition);
+		int maxLastChangeTs = getMaxLastChangeTs(destTable, lastChangeTs);
+		String filter = config.getString("sync.source.filter", "");
+		StringBuilder sbWhere = new StringBuilder();
+		sbWhere.append(filter);
+
+		if (maxLastChangeTs > 0) {
+			if (sbWhere.length() > 0)
+				sbWhere.append(" AND ");
+			sbWhere.append(lastChangeTs.source).append(" >= ").append(maxLastChangeTs);
+		}
+
+		if (sbWhere.length() > 0)
+			sbRead.append(" WHERE ").append(sbWhere);
 
 		if (log.isLoggable(Level.FINE)) {
 			log.fine(sbRead.toString());
@@ -152,6 +165,26 @@ public class SyncModule
 		stmtInsert = dbRedmine.prepareStatement(sbInsert.toString());
 		stmtUpdate = dbRedmine.prepareStatement(sbUpdate.toString());
 		stmtCheck = dbRedmine.prepareStatement(sbCheck.toString());
+	}
+
+	private int getMaxLastChangeTs(String table, ColumnDefinition col)
+		throws SQLException
+	{
+		if (col == null)
+			return 0;
+		int ret = 0;
+
+		PreparedStatement stmt = dbRedmine.prepareStatement(
+			"SELECT MAX(" + col.target + ") FROM " + table);
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			Timestamp ts = rs.getTimestamp(1);
+			ret = (int) (ts.getTime() / 1000L);
+		}
+		rs.close();
+		stmt.close();
+
+		return ret;
 	}
 
 	private void sync()
@@ -245,6 +278,7 @@ public class SyncModule
 		String target;
 		Conversion conversion = Conversion.NONE;
 		boolean isKey;
+		boolean isLastChangeTs;
 
 		public ColumnDefinition(String defString)
 		{
@@ -263,6 +297,8 @@ public class SyncModule
 						conversion = Conversion.TIMESTAMP;
 					else if ("CharToInt".equals(attr))
 						conversion = Conversion.CHAR_TO_INT;
+					else if ("LastChangeTimestamp".equals(attr))
+						isLastChangeTs = true;
 				}
 			}
 		}
