@@ -86,9 +86,12 @@ public class SyncModule
 
 		// pass 1: normal columns
 		ColumnDefinition lastChangeTs = null;
+		List<ColumnDefinition> keyColumns = new ArrayList<ColumnDefinition>();
 		for (ColumnDefinition col : colDefinitions) {
-			if (col.isKey)
+			if (col.isKey) {
+				keyColumns.add(col);
 				continue;
+			}
 			if (col.isLastChangeTs)
 				lastChangeTs = col;
 
@@ -111,10 +114,7 @@ public class SyncModule
 		sbUpdate.append(" WHERE ");
 
 		// pass 2: key columns
-		for (ColumnDefinition col : colDefinitions) {
-			if (!col.isKey)
-				continue;
-
+		for (ColumnDefinition col : keyColumns) {
 			if (numCols > 0) {
 				sbRead.append(", ");
 				sbInsert.append(", ");
