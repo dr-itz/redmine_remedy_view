@@ -1,4 +1,45 @@
-<%= form_tag(remedy_view_config_url(@project), :method => 'put', :id => 'remedy_config') do%>
-  Here goes the RemedyView config
-  <%= submit_tag l(:button_save) %>
-<% end %>
+<div class="splitcontentleft">
+  <% remedy_filters = RemedyFilter.project_filters(@project) %>
+  <% if remedy_filters.any? %>
+    <table class="list">
+      <thead>
+        <tr>
+          <th><%= l(:field_remedy_view_filter_title) %></th>
+          <th><%= l(:field_remedy_view_filter_group) %></th>
+          <th><%= l(:field_remedy_view_filter_contract) %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% remedy_filters.each do |filter| %>
+          <tr id="remedy_filter-<%= filter.id %>" class="<%= cycle 'odd', 'even' %>">
+            <td><%= filter.title %></td>
+            <td><%= filter.group %></td>
+            <td><%= filter.contract_number %></td>
+            <td class="buttons">
+              <%= link_to(l(:button_delete), remedy_filter_path(@project, filter), :data => { :confirm => l(:text_are_you_sure)},
+                :method => :delete, :class => 'icon icon-del') %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% end %>
+</div>
+
+<div class="splitcontentright">
+  <div class="box tabular">
+    <% @remedy_filter ||= RemedyFilter.new %>
+    <%= labelled_form_for [@project, @remedy_filter], :remote => true do |f| %>
+      <p><%= f.text_field :title, :required => true,
+           :label => :field_remedy_view_filter_title %></p>
+      <p><%= f.text_field :group, :required => true,
+           :label => :field_remedy_view_filter_group %></p>
+      <p><%= f.text_field :contract_number, :required => true,
+           :label => :field_remedy_view_filter_contract %></p>
+      <%= submit_tag l(:button_create) %>
+    <% end %>
+  </div>
+</div>

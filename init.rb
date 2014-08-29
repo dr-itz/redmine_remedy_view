@@ -13,8 +13,8 @@ Redmine::Plugin.register :redmine_remedy_view do
     permission :remedy_view_view, {
       :remedy_view => [:index, :show, :new, :create, :edit, :update, :destroy]
     }
-    permission :remedy_view_config, {
-      :remedy_view_config => [:show, :update]
+    permission :remedy_view_admin, {
+      :remedy_view_config => [:show, :update, :create, :destroy]
     }
   end
 

@@ -18,7 +18,25 @@ end
 # Load the Redmine helper
 require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
 
-# Ensure that we are using the plugin's fixtures
+# This ensure that we are using only the plugin's fixtures
 # This is necessary as the Redmine fixtures are too complex and don't cover all needs
 #ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 #ActionDispatch::IntegrationTest.fixture_path = File.expand_path("../fixtures", __FILE__)
+
+# This provides a controller test helper, #plugin_fixtures.
+# It works like the normal #fixtures but uses the plugin's fixture instead
+module Redmine
+  module PluginFixturesLoader
+    def self.included(base)
+      base.class_eval do
+        def self.plugin_fixtures(*symbols)
+          ActiveRecord::Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures/', symbols)
+        end
+      end
+    end
+  end
+end
+
+unless ActiveSupport::TestCase.included_modules.include?(Redmine::PluginFixturesLoader)
+  ActiveSupport::TestCase.send :include, Redmine::PluginFixturesLoader
+end

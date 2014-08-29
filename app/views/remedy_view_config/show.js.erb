@@ -1,0 +1,6 @@
+$('#tab-content-remedy_view').html('<%= escape_javascript(render :partial => 'show') %>');
+hideOnLoad();
+
+<% if @new_filter_id.present? %>
+  $("#remedy_filter-<%= @new_filter_id %>").effect("highlight");
+<% end %>

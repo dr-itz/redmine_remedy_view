@@ -2,6 +2,10 @@
 match 'projects/:project_id/remedy',
   :to => 'remedy_view#index'
 
-put '/projects/:project_id/remedy_view/settings',
-  :to => 'remedy_view_config#update',
-  :as => 'remedy_view_config'
+delete '/projects/:project_id/remedy/settings/filter/:id',
+  :to => 'remedy_view_config#destroy',
+  :as => 'remedy_filter'
+
+post '/projects/:project_id/remedy/settings/filter',
+  :to => 'remedy_view_config#create',
+  :as => 'project_remedy_filters'
