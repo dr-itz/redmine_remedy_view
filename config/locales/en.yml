@@ -1,5 +1,6 @@
 # English strings go here for Rails i18n
 en:
   permission_remedy_view_view: View Remedy Tickets
+  permission_remedy_view_config: Configure Remedy View
 
   label_remedy_view_menu_main: Remedy

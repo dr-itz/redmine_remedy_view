@@ -1,3 +1,5 @@
+require_dependency 'remedy_view/patches/project_settings_tab'
+
 Redmine::Plugin.register :redmine_remedy_view do
   name 'Remedy View'
   author 'Daniel Ritz'
@@ -10,6 +12,9 @@ Redmine::Plugin.register :redmine_remedy_view do
   project_module :remedy_view do
     permission :remedy_view_view, {
       :remedy_view => [:index, :show, :new, :create, :edit, :update, :destroy]
+    }
+    permission :remedy_view_config, {
+      :remedy_view_config => [:show, :update]
     }
   end
 
