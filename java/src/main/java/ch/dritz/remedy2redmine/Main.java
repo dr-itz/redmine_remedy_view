@@ -18,9 +18,10 @@ public class Main
 		if (msg != null)
 			System.out.println("ERROR: " + msg);
 		System.out.println("Remedy2Redmine " + Version.getVersion());
-		System.out.println("Usage: Remedy2Redmine <config.properties> <command> <command specific args>");
-		System.out.println("  <command>   : one of sync");
+		System.out.println("Usage: Remedy2Redmine <config.properties> <command> [<command specific args>]");
+		System.out.println("  <command>   : one of (sync)");
 		System.out.println("  <mode specific args> for each mode:");
+		System.out.println("  - sync: none");
 		System.out.println("OR: Remedy2Redmine -version");
 		System.exit(1);
 	}

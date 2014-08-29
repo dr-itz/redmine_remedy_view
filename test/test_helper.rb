@@ -1,17 +1,17 @@
 require 'simplecov'
 
-if Dir.pwd.match(/plugins\/redmine_workflow_enhancements/)
+if Dir.pwd.match(/plugins\/redmine_remedy_view/)
   covdir = 'coverage'
 else
-  covdir = 'plugins/redmine_workflow_enhancements/coverage'
+  covdir = 'plugins/redmine_remedy_view/coverage'
 end
 
 SimpleCov.coverage_dir(covdir)
 SimpleCov.start 'rails' do
   add_filter do |source_file|
     # only show files belonging to the plugin, except init.rb which is not fully testable
-    source_file.filename.match(/redmine_workflow_enhancements/) == nil ||
-      source_file.filename.match(/redmine_workflow_enhancements\/init.rb/) != nil
+    source_file.filename.match(/redmine_remedy_view/) == nil ||
+      source_file.filename.match(/redmine_remedy_view\/init.rb/) != nil
   end
 end
 

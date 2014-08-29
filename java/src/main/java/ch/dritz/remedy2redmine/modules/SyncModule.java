@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import ch.dritz.common.Config;
 import ch.dritz.remedy2redmine.db.DBUtils;
@@ -19,8 +17,6 @@ import ch.dritz.remedy2redmine.db.DBUtils;
  */
 public class SyncModule
 {
-	private static final Logger log = Logger.getLogger(SyncModule.class.getPackage().getName());
-
 	private Config config;
 	private Connection dbRemedy;
 	private Connection dbRedmine;
@@ -154,13 +150,6 @@ public class SyncModule
 		if (sbWhere.length() > 0)
 			sbRead.append(" WHERE ").append(sbWhere);
 
-		if (log.isLoggable(Level.FINE)) {
-			log.fine(sbRead.toString());
-			log.fine(sbInsert.toString());
-			log.fine(sbUpdate.toString());
-			log.fine(sbCheck.toString());
-		}
-
 		stmtRead = dbRemedy.prepareStatement(sbRead.toString());
 		stmtInsert = dbRedmine.prepareStatement(sbInsert.toString());
 		stmtUpdate = dbRedmine.prepareStatement(sbUpdate.toString());
@@ -176,15 +165,33 @@ public class SyncModule
 
 		PreparedStatement stmt = dbRedmine.prepareStatement(
 			"SELECT MAX(" + col.target + ") FROM " + table);
-		ResultSet rs = stmt.executeQuery();
-		if (rs.next()) {
-			Timestamp ts = rs.getTimestamp(1);
-			ret = (int) (ts.getTime() / 1000L);
+		try {
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Timestamp ts = rs.getTimestamp(1);
+				ret = (int) (ts.getTime() / 1000L);
+			}
+			rs.close();
+		} finally {
+			stmt.close();
 		}
-		rs.close();
-		stmt.close();
 
 		return ret;
+	}
+
+	private boolean existsInTarget(ResultSet rs)
+		throws SQLException
+	{
+		for (int in = numCols - numKeys + 1, out = 1; in <= numCols; in++, out++) {
+			Object obj = rs.getObject(in);
+			stmtCheck.setObject(out, obj);
+		}
+
+		ResultSet rsCheck = stmtCheck.executeQuery();
+		boolean exists = rsCheck.next();
+		rsCheck.close();
+
+		return exists;
 	}
 
 	private void sync()
@@ -194,28 +201,11 @@ public class SyncModule
 
 		int num = 0;
 		while (rs.next()) {
-			// check if exists
-			StringBuilder sb = new StringBuilder();
-			for (int in = numCols - numKeys + 1, out = 1; in <= numCols; in++, out++) {
-				Object obj = rs.getObject(in);
-				stmtCheck.setObject(out, obj);
-				sb.append(obj).append(" ");
-			}
-
-			PreparedStatement stmtInsertOrUpdate = null;
-			ResultSet rsCheck = stmtCheck.executeQuery();
-			if (rsCheck.next()) {
+			PreparedStatement stmtInsertOrUpdate;
+			if (existsInTarget(rs))
 				stmtInsertOrUpdate = stmtUpdate;
-
-				if (log.isLoggable(Level.FINE))
-					log.fine("Updating: " + sb);
-			} else {
+			else
 				stmtInsertOrUpdate = stmtInsert;
-
-				if (log.isLoggable(Level.FINE))
-					log.fine("Inserting: " + sb);
-			}
-			rsCheck.close();
 
 			// insert or update
 			for (int i = 1; i <= numCols; i++) {
