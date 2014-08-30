@@ -14,5 +14,6 @@ class RemedyViewController < ApplicationController
   end
 
   def show
+    @ticket = RemedyTicket.find(params[:id])
   end
 end

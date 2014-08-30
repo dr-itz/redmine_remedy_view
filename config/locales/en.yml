@@ -5,6 +5,8 @@ en:
 
   label_remedy_view_menu_main: Remedy
   label_remedy_view_tickets: Open Remedy Tickets
+  label_remedy_view_ticket: Remedy Ticket
+  label_remedy_view_ticket_added_by: Added by
 
   field_remedy_filter_title: Title
   field_remedy_filter_group: Group in Remedy
@@ -15,3 +17,7 @@ en:
   field_remedy_ticket_state_reason: State Reason
   field_remedy_ticket_short_description: Short description
   field_remedy_ticket_current_summary: Last comment
+  field_remedy_ticket_contact_company: Contact Company
+  field_remedy_ticket_contact_email: Contact Email
+  field_remedy_ticket_contact_phone: Contact Phone
+  field_remedy_ticket_contact_additional: Additional contact info

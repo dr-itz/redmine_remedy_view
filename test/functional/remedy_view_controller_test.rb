@@ -30,4 +30,12 @@ class RemedyViewControllerTest < ActionController::TestCase
 
     assert_response 403
   end
+
+  test "should show ticket" do
+    get :show, :project_id => 1, :id => 1
+
+    assert_response :success
+    assert_template 'show'
+    assert_equal RemedyTicket.find(1), assigns(:ticket)
+  end
 end

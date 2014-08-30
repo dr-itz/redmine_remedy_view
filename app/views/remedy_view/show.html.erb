@@ -1,1 +1,50 @@
-<h2>RemedyViewController#show</h2>
+<h2><%= l(:label_remedy_view_ticket) %>: AR <%= @ticket.remedy_id %></h2>
+
+<div class="issue">
+  <div class="subject">
+    <h3><%= @ticket.short_description %></h3>
+  </div>
+  <p class="author">
+    <%= l(:label_remedy_view_ticket_added_by) %>
+    <strong><%= @ticket.contact_surname %>, <%= @ticket.contact_given_name %></strong>
+  </p>
+  <table class="attributes">
+    <tr>
+      <th><%= l(:field_created_on) %></th>
+      <td><%= format_time(@ticket.actual_reported_date) %></td>
+      <th><%= l(:field_remedy_ticket_severity) %></th>
+      <td><%= @ticket.severity %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_state) %></th>
+      <td><%= @ticket.state %></td>
+      <th><%= l(:field_remedy_ticket_state_reason) %></th>
+      <td><%= @ticket.state_reason %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_contact_company) %></th>
+      <td><%= @ticket.contact_company %></td>
+      <th><%= l(:field_remedy_ticket_contact_email) %></th>
+      <td><%= mail_to(h(@ticket.contact_email)) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_contact_phone) %></th>
+      <td><%= @ticket.contact_phone %></td>
+      <th><%= l(:field_remedy_ticket_contact_additional) %></th>
+      <td><%= mail_to(h(@ticket.additional_contact_info)) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_assigned_to) %></th>
+      <td><%= @ticket.assignee %></td>
+      <th><%= l(:field_updated_on) %></th>
+      <td><%= format_time(@ticket.last_modified_on) %></td>
+    </tr>
+  </table>
+  <hr>
+  <div class="description">
+    <p><strong><%=l(:field_remedy_ticket_current_summary)%></strong></p>
+    <div class="wiki">
+      <%= @ticket.current_summary %>
+    </div>
+  </div>
+</div>

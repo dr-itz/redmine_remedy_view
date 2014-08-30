@@ -1,6 +1,11 @@
 # Plugin's routes
-match 'projects/:project_id/remedy',
-  :to => 'remedy_view#index'
+get 'projects/:project_id/remedy',
+  :to => 'remedy_view#index',
+  :as => 'remedy_tickets'
+
+get 'projects/:project_id/remedy/:id',
+  :to => 'remedy_view#show',
+  :as => 'remedy_ticket'
 
 delete '/projects/:project_id/remedy/settings/filter/:id',
   :to => 'remedy_view_config#destroy',

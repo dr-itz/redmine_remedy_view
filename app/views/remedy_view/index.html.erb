@@ -41,7 +41,9 @@
         <% end %>
         <% tg[:tickets].each do |t| %>
           <tr class="<%= cycle('odd', 'even') %>">
-            <td class="id"><%= t.remedy_id %></td>
+            <td class="id">
+              <%= link_to t.remedy_id, remedy_ticket_path(@project, t) %>
+            </td>
             <td class="created_on">
               <%= format_time(t.actual_reported_date) %><br>
               <%= format_time(t.last_modified_on) %>
@@ -52,7 +54,7 @@
               <%= t.state_reason %>
             </td>
             <td class="subject">
-              <%= t.short_description %><br>
+              <%= link_to t.short_description , remedy_ticket_path(@project, t) %><br>
               <span class="remedy-current-summary"><%= t.current_summary %></span>
             </td>
             <td class="assigned_to"><%= t.assignee %></td>

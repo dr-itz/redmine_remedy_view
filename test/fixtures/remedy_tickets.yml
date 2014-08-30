@@ -14,6 +14,10 @@ ticket1:
   assigned_group: "Test Group 1"
   assignee: "rhill"
   contract_number: "Test Contract 1"
+  contact_company: "Company"
+  contact_given_name: "Hans"
+  contact_surname: "Muster"
+  contact_email: "hans.muster@company.ch"
 ticket2:
   id: 2
   remedy_id: "1-1234575"
@@ -29,3 +33,7 @@ ticket2:
   assigned_group: "Test Group 1"
   assignee: "rhill"
   contract_number: "Another Test Contract"
+  contact_company: "Company"
+  contact_given_name: "Hans"
+  contact_surname: "Muster"
+  contact_email: "hans.muster@company.ch"
