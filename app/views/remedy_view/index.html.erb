@@ -9,7 +9,10 @@
     <thead>
       <tr>
         <th>AR #</th>
-        <th><%= l(:field_created_on) %></th>
+        <th>
+          <%= l(:field_created_on) %><br>
+          <%= l(:field_updated_on) %>
+        </th>
         <th><%= l(:field_remedy_ticket_severity) %></th>
         <th>
           <%= l(:field_remedy_ticket_state) %><br>
@@ -39,7 +42,10 @@
         <% tg[:tickets].each do |t| %>
           <tr class="<%= cycle('odd', 'even') %>">
             <td class="id"><%= t.remedy_id %></td>
-            <td class="created_on"><%= format_time(t.actual_reported_date) %></td>
+            <td class="created_on">
+              <%= format_time(t.actual_reported_date) %><br>
+              <%= format_time(t.last_modified_on) %>
+            </td>
             <td class="priority"><%= t.severity %></td>
             <td class="status">
               <%= t.state %><br>
@@ -47,7 +53,7 @@
             </td>
             <td class="subject">
               <%= t.short_description %><br>
-              <span class="remedey-current-summary"><%= t.current_summary %></span>
+              <span class="remedy-current-summary"><%= t.current_summary %></span>
             </td>
             <td class="assigned_to"><%= t.assignee %></td>
           </tr>
