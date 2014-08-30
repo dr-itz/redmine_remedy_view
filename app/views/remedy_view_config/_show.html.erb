@@ -4,9 +4,9 @@
     <table class="list">
       <thead>
         <tr>
-          <th><%= l(:field_remedy_view_filter_title) %></th>
-          <th><%= l(:field_remedy_view_filter_group) %></th>
-          <th><%= l(:field_remedy_view_filter_contract) %></th>
+          <th><%= l(:field_remedy_filter_title) %></th>
+          <th><%= l(:field_remedy_filter_group) %></th>
+          <th><%= l(:field_remedy_filter_contract) %></th>
           <th></th>
         </tr>
       </thead>
@@ -34,11 +34,11 @@
     <% @remedy_filter ||= RemedyFilter.new %>
     <%= labelled_form_for [@project, @remedy_filter], :remote => true do |f| %>
       <p><%= f.text_field :title, :required => true,
-           :label => :field_remedy_view_filter_title %></p>
+           :label => :field_remedy_filter_title %></p>
       <p><%= f.text_field :group, :required => true,
-           :label => :field_remedy_view_filter_group %></p>
+           :label => :field_remedy_filter_group %></p>
       <p><%= f.text_field :contract_number, :required => true,
-           :label => :field_remedy_view_filter_contract %></p>
+           :label => :field_remedy_filter_contract %></p>
       <%= submit_tag l(:button_create) %>
     <% end %>
   </div>

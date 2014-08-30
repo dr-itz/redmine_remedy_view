@@ -11,7 +11,7 @@ class RemedyFilter < ActiveRecord::Base
   validates_uniqueness_of :title,           :scope => [ :project_id ]
   validates_uniqueness_of :contract_number, :scope => [ :project_id, :group ]
 
-  scope :project_filters, lambda { |project|
+  scope :project_filters, ->(project) {
     where(:project_id => project.is_a?(Project) ? project.id : project)
     .order('title')
   }

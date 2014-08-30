@@ -4,7 +4,15 @@ en:
   permission_remedy_view_admin: Configure Remedy View
 
   label_remedy_view_menu_main: Remedy
+  label_remedy_view_tickets: Open Remedy Tickets
 
-  field_remedy_view_filter_title: Title
-  field_remedy_view_filter_group: Group in Remedy
-  field_remedy_view_filter_contract: Contract in Remedy
+  field_remedy_filter_title: Title
+  field_remedy_filter_group: Group in Remedy
+  field_remedy_filter_contract: Contract in Remedy
+
+  field_remedy_ticket_severity: Severity
+  field_remedy_ticket_state: State
+  field_remedy_ticket_state_reason: State Reason
+  field_remedy_ticket_short_description: Short description
+  field_remedy_ticket_current_summary: Last comment
+  field_remedy_ticket_sla: SLA

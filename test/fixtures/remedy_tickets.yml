@@ -1,0 +1,29 @@
+---
+ticket1:
+  id: 1
+  remedy_id: "1-1234567"
+  create_date: 2014-08-30 18:35:36
+  actual_reported_date: 2014-08-30 18:33:30
+  state: 3
+  state_reason: "Under investigation"
+  severity: 3
+  short_description: "System fails"
+  current_summary: "We have no clue what's wrong"
+  owner_group: "Test Group 1"
+  assigned_group: "Test Group 1"
+  assignee: "rhill"
+  contract_number: "Test Contract 1"
+ticket2:
+  id: 2
+  remedy_id: "1-1234575"
+  create_date: 2014-08-30 19:35:36
+  actual_reported_date: 2014-08-30 19:33:30
+  state: 3
+  state_reason: "Under investigation"
+  severity: 2
+  short_description: "System fails"
+  current_summary: "Someone pulled the power plug"
+  owner_group: "Test Group 1"
+  assigned_group: "Test Group 1"
+  assignee: "rhill"
+  contract_number: "Another Test Contract"

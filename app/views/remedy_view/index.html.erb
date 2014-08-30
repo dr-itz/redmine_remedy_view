@@ -1,1 +1,58 @@
-<h2>RemedyViewController#index</h2>
+<% content_for :header_tags do -%>
+  <%= stylesheet_link_tag "remedy_view.css", :plugin => :redmine_remedy_view %>
+<% end -%>
+
+<h2><%= l(:label_remedy_view_tickets) %></h2>
+
+<div class="autoscroll">
+  <table class="list issues">
+    <thead>
+      <tr>
+        <th>AR #</th>
+        <th><%= l(:field_created_on) %></th>
+        <th><%= l(:field_remedy_ticket_severity) %></th>
+        <th>
+          <%= l(:field_remedy_ticket_state) %><br>
+          <%= l(:field_remedy_ticket_state_reason) %>
+        </th>
+        <th>
+          <%= l(:field_remedy_ticket_short_description) %><br>
+          <%= l(:field_remedy_ticket_current_summary) %>
+        </th>
+        <th><%= l(:field_assigned_to) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ticket_groups.each do |tg| %>
+        <% reset_cycle %>
+        <% if @ticket_groups.length > 1 %>
+          <tr class="group open">
+            <td colspan="6">
+              <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
+              <%= tg[:filter].title %>
+              <span class="count"><%= tg[:tickets].length %></span>
+              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                                   "toggleAllRowGroups(this)", :class => 'toggle-all') %>
+            </td>
+          </tr>
+        <% end %>
+        <% tg[:tickets].each do |t| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td class="id"><%= t.remedy_id %></td>
+            <td class="created_on"><%= format_time(t.actual_reported_date) %></td>
+            <td class="priority"><%= t.severity %></td>
+            <td class="status">
+              <%= t.state %><br>
+              <%= t.state_reason %>
+            </td>
+            <td class="subject">
+              <%= t.short_description %><br>
+              <span class="remedey-current-summary"><%= t.current_summary %></span>
+            </td>
+            <td class="assigned_to"><%= t.assignee %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
