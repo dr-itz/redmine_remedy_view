@@ -18,6 +18,8 @@ ticket1:
   contact_given_name: "Hans"
   contact_surname: "Muster"
   contact_email: "hans.muster@company.ch"
+  contact_country_code: "41"
+  contact_local_number: "44 123 45 67"
 ticket2:
   id: 2
   remedy_id: "1-1234575"
@@ -32,8 +34,31 @@ ticket2:
   owner_group: "Test Group 1"
   assigned_group: "Test Group 1"
   assignee: "rhill"
+  contract_number: "Test Contract 1"
+  contact_company: "Company"
+  contact_given_name: "Hans"
+  contact_surname: "Muster"
+  contact_email: "hans.muster@company.ch"
+  contact_country_code: ""
+  contact_local_number: "44 123 45 67"
+ticket3:
+  id: 3
+  remedy_id: "1-1234594"
+  create_date: 2014-08-30 21:35:36
+  actual_reported_date: 2014-08-30 21:33:30
+  last_modified_on: 2014-08-29 12:28:30
+  state: 3
+  state_reason: "Under investigation"
+  severity: 2
+  short_description: "System fails"
+  current_summary: "analyzing"
+  owner_group: "Test Group 1"
+  assigned_group: "Test Group 1"
+  assignee: "rhill"
   contract_number: "Another Test Contract"
   contact_company: "Company"
   contact_given_name: "Hans"
   contact_surname: "Muster"
   contact_email: "hans.muster@company.ch"
+  contact_country_code: ""
+  contact_local_number: "44 123 45 67"

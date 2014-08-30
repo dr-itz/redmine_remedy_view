@@ -20,8 +20,9 @@ class RemedyViewControllerTest < ActionController::TestCase
     assert_not_nil ticket_groups
     assert_equal 1, ticket_groups.length
     assert_equal RemedyFilter.find(7), ticket_groups[0][:filter]
-    assert_equal 1, ticket_groups[0][:tickets].length
+    assert_equal 2, ticket_groups[0][:tickets].length
     assert_equal RemedyTicket.find_by_remedy_id("1-1234567"), ticket_groups[0][:tickets][0]
+    assert_equal RemedyTicket.find_by_remedy_id("1-1234575"), ticket_groups[0][:tickets][1]
   end
 
   test "should deny index" do
