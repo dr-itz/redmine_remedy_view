@@ -1,6 +1,9 @@
 class RemedyTicket < ActiveRecord::Base
   unloadable
 
+  has_many :remedy_ticket_issues
+  has_many :issues, :through => :remedy_ticket_issues
+
   scope :by_remedy_filter, ->(filter) {
     where(:owner_group => filter.group, :contract_number => filter.contract_number)
   }

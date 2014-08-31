@@ -3,6 +3,11 @@ require File.expand_path('../../test_helper', __FILE__)
 class RemedyTicketTest < ActiveSupport::TestCase
   plugin_fixtures :remedy_tickets
 
+  context "relations" do
+    should have_many(:remedy_ticket_issues)
+    should have_many(:issues).through(:remedy_ticket_issues)
+  end
+
   test "phone number with prefix" do
     t = RemedyTicket.find(1)
     assert_equal "+41 44 123 45 67", t.contact_phone
