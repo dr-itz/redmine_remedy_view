@@ -7,19 +7,33 @@
   <p class="author">
     <%= l(:label_remedy_view_ticket_added_by) %>
     <strong><%= @ticket.contact_surname %>, <%= @ticket.contact_given_name %></strong>
+    <%= l(:label_remedy_view_ticket_added_via) %>
+    "<%= @ticket.request_method %>"
   </p>
   <table class="attributes">
     <tr>
       <th><%= l(:field_created_on) %></th>
       <td><%= format_time(@ticket.actual_reported_date) %></td>
       <th><%= l(:field_remedy_ticket_severity) %></th>
-      <td><%= @ticket.severity %></td>
+      <td><%= @ticket.severity_s %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_request_type) %></th>
+      <td><%= @ticket.request_type %></td>
+      <th><%= l(:field_remedy_ticket_request_category) %></th>
+      <td><%= @ticket.request_category %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_state) %></th>
-      <td><%= @ticket.state %></td>
+      <td><%= @ticket.state_s %></td>
       <th><%= l(:field_remedy_ticket_state_reason) %></th>
       <td><%= @ticket.state_reason %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_site_company) %></th>
+      <td><%= @ticket.site_company %></td>
+      <th><%= l(:field_remedy_ticket_site) %></th>
+      <td><%= mail_to(h(@ticket.site)) %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_contact_company) %></th>
@@ -38,6 +52,45 @@
       <td><%= @ticket.assignee %></td>
       <th><%= l(:field_updated_on) %></th>
       <td><%= format_time(@ticket.last_modified_on) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_product) %></th>
+      <td><%= @ticket.product %></td>
+      <th><%= l(:field_remedy_ticket_product_version) %></th>
+      <td><%= @ticket.product_version %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_model) %></th>
+      <td><%= @ticket.model %></td>
+      <th><%= l(:field_remedy_ticket_customer_ticket) %></th>
+      <td><%= @ticket.customer_ticket %></td>
+    </tr>
+  </table>
+  <hr>
+  <table class="attributes">
+    <tr>
+      <th><%= l(:field_remedy_ticket_actual_respond_date) %></th>
+      <td><%= format_time(@ticket.actual_respond_date) %></td>
+      <th><%= l(:field_remedy_ticket_target_respond_date) %></th>
+      <td><%= format_time(@ticket.target_respond_date) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_actual_restore_date) %></th>
+      <td><%= format_time(@ticket.actual_restore_date) %></td>
+      <th><%= l(:field_remedy_ticket_target_restore_date) %></th>
+      <td><%= format_time(@ticket.target_restore_date) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_actual_resolve_date) %></th>
+      <td><%= format_time(@ticket.actual_resolve_date) %></td>
+      <th><%= l(:field_remedy_ticket_target_resolve_date) %></th>
+      <td><%= format_time(@ticket.target_resolve_date) %></td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_actual_closed_date) %></th>
+      <td><%= format_time(@ticket.actual_closed_date) %></td>
+      <th>&nbsp;</th>
+      <td>&nbsp;</td>
     </tr>
   </table>
   <hr>

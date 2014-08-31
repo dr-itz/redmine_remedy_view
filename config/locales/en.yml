@@ -6,13 +6,18 @@ en:
   label_remedy_view_menu_main: Remedy
   label_remedy_view_tickets: Open Remedy Tickets
   label_remedy_view_ticket: Remedy Ticket
-  label_remedy_view_ticket_added_by: Added by
+  label_remedy_view_ticket_added_by: Request opened by
+  label_remedy_view_ticket_added_via: via
 
   field_remedy_filter_title: Title
   field_remedy_filter_group: Group in Remedy
   field_remedy_filter_contract: Contract in Remedy
 
   field_remedy_ticket_severity: Severity
+  field_remedy_ticket_site: Site
+  field_remedy_ticket_site_company: Site Company
+  field_remedy_ticket_request_type: Request Type
+  field_remedy_ticket_request_category: Request Category
   field_remedy_ticket_state: State
   field_remedy_ticket_state_reason: State Reason
   field_remedy_ticket_short_description: Short description
@@ -21,3 +26,15 @@ en:
   field_remedy_ticket_contact_email: Contact Email
   field_remedy_ticket_contact_phone: Contact Phone
   field_remedy_ticket_contact_additional: Additional contact info
+  field_remedy_ticket_product: Product
+  field_remedy_ticket_product_version: Product
+  field_remedy_ticket_model: Model
+  field_remedy_ticket_customer_ticket: Customer Ticket
+
+  field_remedy_ticket_actual_respond_date: Actual Response Time
+  field_remedy_ticket_target_respond_date: Target Response Time
+  field_remedy_ticket_actual_restore_date: Actual Restore Time
+  field_remedy_ticket_target_restore_date: Target Restore Time
+  field_remedy_ticket_actual_resolve_date: Actual Resolve Time
+  field_remedy_ticket_target_resolve_date: Target Resolve Time
+  field_remedy_ticket_actual_closed_date: Closed Time

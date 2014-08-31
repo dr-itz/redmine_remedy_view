@@ -12,8 +12,10 @@ class CreateRemedyTickets < ActiveRecord::Migration
       t.integer   :severity
       t.integer   :state
       t.string    :state_reason, limit: 100
+      t.string    :site
+      t.string    :site_company
       t.string    :short_description
-      t.string    :current_summary
+      t.text      :current_summary
       t.string    :customer_ticket
       t.string    :product
       t.string    :product_version

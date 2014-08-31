@@ -16,11 +16,11 @@
         <th><%= l(:field_remedy_ticket_severity) %></th>
         <th>
           <%= l(:field_remedy_ticket_state) %><br>
-          <%= l(:field_remedy_ticket_state_reason) %>
+          <span class="remedy-smaller"><%= l(:field_remedy_ticket_state_reason) %></span>
         </th>
         <th>
           <%= l(:field_remedy_ticket_short_description) %><br>
-          <%= l(:field_remedy_ticket_current_summary) %>
+          <span class="remedy-smaller"><%= l(:field_remedy_ticket_current_summary) %></span>
         </th>
         <th><%= l(:field_assigned_to) %></th>
       </tr>
@@ -48,10 +48,10 @@
               <%= format_time(t.actual_reported_date) %><br>
               <%= format_time(t.last_modified_on) %>
             </td>
-            <td class="priority"><%= t.severity %></td>
+            <td class="priority"><%= t.severity_s %></td>
             <td class="status">
-              <%= t.state %><br>
-              <%= t.state_reason %>
+              <%= t.state_s %><br>
+              <span class="remedy-smaller"><%= t.state_reason %></span>
             </td>
             <td class="subject">
               <%= link_to t.short_description , remedy_ticket_path(@project, t) %><br>
