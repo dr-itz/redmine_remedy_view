@@ -33,7 +33,7 @@
       <th><%= l(:field_remedy_ticket_site_company) %></th>
       <td><%= @ticket.site_company %></td>
       <th><%= l(:field_remedy_ticket_site) %></th>
-      <td><%= mail_to(h(@ticket.site)) %></td>
+      <td><%= @ticket.site %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_contact_company) %></th>
