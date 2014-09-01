@@ -1,4 +1,6 @@
-<h2><%= l(:label_remedy_view_ticket) %>: AR <%= @ticket.remedy_id %></h2>
+<% my_title = l(:label_remedy_view_ticket) + " AR " + @ticket.remedy_id %>
+<% title my_title %>
+<h2><%= my_title %></h2>
 
 <div class="issue">
   <div class="subject">
@@ -100,4 +102,17 @@
       <%= @ticket.current_summary %>
     </div>
   </div>
+</div>
+
+<div class="box">
+  <%= labelled_form_for @issue,
+        :url => remedy_ticket_new_issue_path(@project, @ticket.id),
+        :remote => true do |f| %>
+    <%= f.select :project_id,
+          project_tree_options_for_select(@issue.allowed_target_projects, :selected => @project) %>
+    <%= f.submit l(:button_create) %>
+  <% end %>
+</div>
+
+<div id="remedy2issue">
 </div>

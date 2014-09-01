@@ -1,4 +1,5 @@
 require_dependency 'remedy_view/patches/project_settings_tab'
+require_dependency 'remedy_view/patches/issue_patch'
 
 Redmine::Plugin.register :redmine_remedy_view do
   name 'Remedy View'
@@ -11,7 +12,7 @@ Redmine::Plugin.register :redmine_remedy_view do
 
   project_module :remedy_view do
     permission :remedy_view_view, {
-      :remedy_view => [:index, :show, :new, :create, :edit, :update, :destroy]
+      :remedy_view => [:index, :show, :new_issue ]
     }
     permission :remedy_view_admin, {
       :remedy_view_config => [:show, :update, :create, :destroy]

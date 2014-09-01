@@ -7,6 +7,10 @@ get 'projects/:project_id/remedy/:id',
   :to => 'remedy_view#show',
   :as => 'remedy_ticket'
 
+post 'projects/:project_id/remedy/:id/new_issue',
+  :to => 'remedy_view#new_issue',
+  :as => 'remedy_ticket_new_issue'
+
 delete '/projects/:project_id/remedy/settings/filter/:id',
   :to => 'remedy_view_config#destroy',
   :as => 'remedy_filter'
