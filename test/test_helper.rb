@@ -25,14 +25,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
 
 # This provides a controller test helper, #plugin_fixtures.
 # It works like the normal #fixtures but uses the plugin's fixture instead
-module Redmine
-  module PluginFixturesLoader
-    def plugin_fixtures(*symbols)
-      ActiveRecord::Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures/', symbols)
-    end
-  end
-end
-
 class ActiveSupport::TestCase
-  extend Redmine::PluginFixturesLoader
+  def self.plugin_fixtures(*symbols)
+    ActiveRecord::Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures/', symbols)
+  end
 end
