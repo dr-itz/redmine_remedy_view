@@ -3,6 +3,7 @@ class CreateRemedyTicketIssues < ActiveRecord::Migration
     create_table :remedy_ticket_issues do |t|
       t.integer :remedy_ticket_id, :null => false
       t.integer :issue_id, :null => false
+      t.integer :project_id, :null => false
 
       t.timestamps
     end

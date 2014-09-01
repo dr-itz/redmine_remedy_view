@@ -251,6 +251,7 @@
 		<copy todir="${dist.bin.dir}">
 			<fileset dir="${bin.dir}" includes="**" excludes="**/*.swp"/>
 		</copy>
+		<!--
 		<copy todir="${dist.doc.dir}">
 			<fileset dir="${doc.dir}">
 				<include name="**"/>
@@ -259,6 +260,7 @@
 				<exclude name="ref/**"/>
 			</fileset>
 		</copy>
+		-->
 	</target>
 
 	<target name="distclean">
