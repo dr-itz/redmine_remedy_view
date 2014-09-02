@@ -3,7 +3,6 @@ class RemedyViewController < ApplicationController
 
   before_filter :find_project_by_project_id
   before_filter :authorize
-  before_filter :find_ticket, :only => [ :show, :new_issue ]
 
   helper :watchers
 
@@ -18,11 +17,13 @@ class RemedyViewController < ApplicationController
   end
 
   def show
-    @issue = Issue.new
-    @issue.project = @project
+    @ticket = RemedyTicket.find(params[:id], include: :issues)
+    @allowed_projects = Project.allowed_to(User.current, :add_issues)
   end
 
   def new_issue
+    @ticket = RemedyTicket.find(params[:id])
+
     # need to override @project for the issue to be created in the right project
     @project = Project.find(params[:issue][:project_id])
 
@@ -40,11 +41,5 @@ class RemedyViewController < ApplicationController
     if @issue.project.users.count <= 20
       @available_watchers = (@available_watchers + @issue.project.users.sort).uniq
     end
-  end
-
-  private
-
-  def find_ticket
-    @ticket = RemedyTicket.find(params[:id])
   end
 end

@@ -4,7 +4,7 @@ class RemedyViewControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles,
            :issue_statuses, :trackers, :projects_trackers, :issue_categories
 
-  plugin_fixtures :remedy_filters, :remedy_tickets
+  plugin_fixtures :remedy_filters, :remedy_tickets, :remedy_ticket_issues
 
   setup do
     @request.session[:user_id] = 2
@@ -40,6 +40,7 @@ class RemedyViewControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'show'
     assert_equal RemedyTicket.find(1), assigns(:ticket)
+    assert_equal Project.allowed_to(User.find(2), :add_issues), assigns(:allowed_projects)
   end
 
   test "should show new issue form" do

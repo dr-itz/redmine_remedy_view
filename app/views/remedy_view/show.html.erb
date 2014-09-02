@@ -69,6 +69,7 @@
     </tr>
   </table>
   <hr>
+
   <table class="attributes">
     <tr>
       <th><%= l(:field_remedy_ticket_actual_respond_date) %></th>
@@ -96,21 +97,41 @@
     </tr>
   </table>
   <hr>
+
   <div class="description">
     <p><strong><%=l(:field_remedy_ticket_current_summary)%></strong></p>
     <div class="wiki">
       <%= @ticket.current_summary %>
     </div>
   </div>
-</div>
+  <hr>
 
-<div class="box">
-  <%= labelled_form_for @issue,
+  <p><strong><%=l(:label_remedy_view_redmine_issues)%></strong></p>
+  <form>
+    <table class="list issues">
+      <% @ticket.issues.each do |issue| %>
+        <tr class="issue" %>
+          <td class="subject">
+            <%= h(issue.project) + ' - ' %>
+            <%= link_to_issue(issue, :truncate => 60) %>
+          </td>
+          <td class="status"><%=h issue.status.name %></td>
+          <td class="start_date"><%= format_date(issue.start_date) %></td>
+          <td class="due_date"><%= format_date(issue.due_date) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </form>
+
+  <%= form_for :issue,
         :url => remedy_ticket_new_issue_path(@project, @ticket.id),
         :remote => true do |f| %>
-    <%= f.select :project_id,
-          project_tree_options_for_select(@issue.allowed_target_projects, :selected => @project) %>
-    <%= f.submit l(:button_create) %>
+    <p>
+      <%= l(:label_remedy_view_add_redmine_issue) %>
+      <%= f.select :project_id,
+            project_tree_options_for_select(@allowed_projects, :selected => @project) %>
+      <%= f.submit l(:button_add) %>
+    </p>
   <% end %>
 </div>
 

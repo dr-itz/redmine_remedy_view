@@ -9,6 +9,9 @@ en:
   label_remedy_view_ticket_added_by: Request opened by
   label_remedy_view_ticket_added_via: via
 
+  label_remedy_view_redmine_issues: Redmine Issues
+  label_remedy_view_add_redmine_issue: Add Redmine issue in Project
+
   field_remedy_filter_title: Title
   field_remedy_filter_group: Group in Remedy
   field_remedy_filter_contract: Contract in Remedy
