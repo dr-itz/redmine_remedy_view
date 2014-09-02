@@ -1,15 +1,29 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class RemedyViewControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :issue_statuses, :trackers, :projects_trackers, :issue_categories
+  fixtures :projects,
+           :users,
+           :roles,
+           :members,
+           :member_roles,
+           :issues,
+           :issue_statuses,
+           :versions,
+           :trackers,
+           :projects_trackers,
+           :issue_categories,
+           :enabled_modules,
+           :enumerations,
+           :workflows,
+           :time_entries
 
   plugin_fixtures :remedy_filters, :remedy_tickets, :remedy_ticket_issues
 
   setup do
+    User.current = nil
     @request.session[:user_id] = 2
     Role.find(1).add_permission! :remedy_view_view
-    Project.find(1).enabled_module_names = [:remedy_view]
+    EnabledModule.create!(:project_id => 1, :name => 'remedy_view')
   end
 
   test "should get index" do
@@ -53,5 +67,11 @@ class RemedyViewControllerTest < ActionController::TestCase
     issue = assigns(:issue)
     assert_equal issue.subject, RemedyTicket.find(1).short_description
     assert_equal issue.author, User.find(2)
+
+    assert_equal 1, issue.remedy_ticket_issues.length
+    assert_equal 1, issue.remedy_ticket_issues.first.project_id
+    assert_equal 1, issue.remedy_ticket_issues.first.remedy_ticket_id
+
+    assert_include 'issue_remedy_ticket_issues_attributes_0_project_id', response.body
   end
 end

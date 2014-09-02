@@ -5,7 +5,6 @@ class RemedyTicketIssue < ActiveRecord::Base
   belongs_to :remedy_ticket
   belongs_to :project
 
-  validates :issue_id,         :presence => true
   validates :remedy_ticket_id, :presence => true
   validates :project_id,       :presence => true
 

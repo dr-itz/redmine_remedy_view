@@ -1,5 +1,6 @@
 require_dependency 'remedy_view/patches/project_settings_tab'
 require_dependency 'remedy_view/patches/issue_patch'
+require_dependency 'remedy_view/hooks'
 
 Redmine::Plugin.register :redmine_remedy_view do
   name 'Remedy View'

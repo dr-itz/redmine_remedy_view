@@ -5,6 +5,7 @@ class RemedyViewController < ApplicationController
   before_filter :authorize
 
   helper :watchers
+  helper :projects
 
   def index
     @ticket_groups = []
@@ -24,11 +25,16 @@ class RemedyViewController < ApplicationController
   def new_issue
     @ticket = RemedyTicket.find(params[:id])
 
+    rel = RemedyTicketIssue.new
+    rel.project = @project
+    rel.remedy_ticket = @ticket
+
     # need to override @project for the issue to be created in the right project
     @project = Project.find(params[:issue][:project_id])
 
     # mostly from IssuesController#build_new_issue_from_params
     @issue = Issue.new
+    @issue.remedy_ticket_issues << rel
     @issue.project = @project
     @issue.author = User.current
     @issue.subject = @ticket.short_description

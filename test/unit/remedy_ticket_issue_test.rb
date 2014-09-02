@@ -2,7 +2,6 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class RemedyTicketIssueTest < ActiveSupport::TestCase
   context "validations" do
-    should validate_presence_of(:issue_id)
     should validate_presence_of(:remedy_ticket_id)
     should validate_presence_of(:project_id)
   end
