@@ -120,6 +120,7 @@
             <%= link_to_issue(issue, :truncate => 60) %>
           </td>
           <td class="status"><%=h issue.status.name %></td>
+          <td class="assignee"><%=h issue.assigned_to %></td>
           <td class="start_date"><%= format_date(issue.start_date) %></td>
           <td class="due_date"><%= format_date(issue.due_date) %></td>
         </tr>
