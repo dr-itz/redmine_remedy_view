@@ -1,8 +1,6 @@
 <% content_for :header_tags do -%>
   <%= stylesheet_link_tag "remedy_view.css", :plugin => :redmine_remedy_view %>
 <% end -%>
-<% heads_for_wiki_formatter %>
-<% include_calendar_headers_tags %>
 
 <% my_title = l(:label_remedy_view_ticket) + " AR " + @ticket.remedy_id %>
 <% title my_title %>
@@ -142,5 +140,6 @@
   <% end %>
 </div>
 
-<div id="remedy2issue">
+<div id="remedy2issue" style="display: none;">
+  <%= render :template => 'issues/new' %>
 </div>

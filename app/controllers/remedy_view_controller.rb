@@ -20,25 +20,34 @@ class RemedyViewController < ApplicationController
   def show
     @ticket = RemedyTicket.find(params[:id], include: :issues)
     @allowed_projects = Project.allowed_to(User.current, :add_issues)
+
+    setup_new_issue(@project)
   end
 
   def new_issue
     @ticket = RemedyTicket.find(params[:id])
 
+    project = Project.find(params[:issue][:project_id])
+    setup_new_issue(project)
+
+    # need to override @project for the issue to be created in the right project
+    @project = project
+  end
+
+  private
+
+  def setup_new_issue(project)
     rel = RemedyTicketIssue.new
     rel.project = @project
     rel.remedy_ticket = @ticket
 
-    # need to override @project for the issue to be created in the right project
-    @project = Project.find(params[:issue][:project_id])
-
     # mostly from IssuesController#build_new_issue_from_params
     @issue = Issue.new
     @issue.remedy_ticket_issues << rel
-    @issue.project = @project
+    @issue.project = project
     @issue.author = User.current
     @issue.subject = @ticket.short_description
-    @issue.tracker = @project.trackers.find(:first)
+    @issue.tracker = project.trackers.find(:first)
     @issue.start_date = Date.today if Setting.default_issue_start_date_to_creation_date?
 
     @priorities = IssuePriority.active

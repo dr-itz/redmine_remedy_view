@@ -1,5 +1,5 @@
 try {
-  $('#remedy2issue').html('<%= escape_javascript(render :template => 'issues/new') %>');
+  $('#remedy2issue').show().html('<%= escape_javascript(render :template => 'issues/new') %>');
 } catch (err) {
 }
 var h2 = $('#remedy2issue > h2');
