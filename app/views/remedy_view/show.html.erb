@@ -1,3 +1,7 @@
+<% content_for :header_tags do -%>
+  <%= stylesheet_link_tag "remedy_view.css", :plugin => :redmine_remedy_view %>
+<% end -%>
+
 <% my_title = l(:label_remedy_view_ticket) + " AR " + @ticket.remedy_id %>
 <% title my_title %>
 <h2><%= my_title %></h2>
@@ -108,9 +112,9 @@
 
   <p><strong><%=l(:label_remedy_view_redmine_issues)%></strong></p>
   <form>
-    <table class="list issues">
+    <table class="list issues remedy">
       <% @ticket.issues.each do |issue| %>
-        <tr class="issue" %>
+        <tr class="issue" id="issue-<%= issue.id %>">
           <td class="subject">
             <%= h(issue.project) + ' - ' %>
             <%= link_to_issue(issue, :truncate => 60) %>

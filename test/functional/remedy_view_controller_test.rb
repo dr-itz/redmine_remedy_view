@@ -57,6 +57,15 @@ class RemedyViewControllerTest < ActionController::TestCase
     assert_equal Project.allowed_to(User.find(2), :add_issues), assigns(:allowed_projects)
   end
 
+  test "should show related redmine issue" do
+    get :show, :project_id => 1, :id => 1
+
+    assert_response :success
+    assert_template 'show'
+    assert_equal RemedyTicket.find(1), assigns(:ticket)
+    assert_select '#issue-4'
+  end
+
   test "should show new issue form" do
     xhr :post, :new_issue, :project_id => 1, :id => 1, :issue => { :project_id => 2 }
 

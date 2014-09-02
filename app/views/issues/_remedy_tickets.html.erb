@@ -1,0 +1,22 @@
+<% if issue.remedy_ticket_issues.any? %>
+  <% content_for :header_tags do -%>
+    <%= stylesheet_link_tag "remedy_view.css", :plugin => :redmine_remedy_view %>
+  <% end -%>
+
+  <hr>
+  <p><strong><%=l(:label_issues_related_remedy_tickets)%></strong></p>
+  <table class="list issues remedy">
+    <% issue.remedy_ticket_issues.each do |rel| %>
+      <tr class="issue" id="remedy-<%= rel.remedy_ticket.remedy_id %>">
+        <td class="id">
+          <%= h(rel.project) %>&nbsp;-&nbsp;
+          <%= link_to rel.remedy_ticket.remedy_id,
+                remedy_ticket_path(rel.project, rel.remedy_ticket_id) %>
+        </td>
+        <td class="subject"><%= rel.remedy_ticket.short_description %></td>
+        <td class="status"><%= rel.remedy_ticket.state_s %></td>
+        <td class="assignee"><%= rel.remedy_ticket.assignee %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

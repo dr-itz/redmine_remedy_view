@@ -11,6 +11,7 @@ en:
 
   label_remedy_view_redmine_issues: Redmine Issues
   label_remedy_view_add_redmine_issue: Add Redmine issue in Project
+  label_issues_related_remedy_tickets: Related Remedy Tickets
 
   field_remedy_filter_title: Title
   field_remedy_filter_group: Group in Remedy

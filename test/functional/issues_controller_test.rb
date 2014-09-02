@@ -56,4 +56,13 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, issue.remedy_ticket_issues.first.project_id
     assert_equal 1, issue.remedy_ticket_issues.first.remedy_ticket_id
   end
+
+  test "should show related remedy tickets in issue" do
+    get :show, :id => 4
+
+    assert_response :success
+    assert_template 'show'
+
+    assert_select '#remedy-1-1234567'
+  end
 end

@@ -5,3 +5,7 @@
 .remedy-smaller {
 	font-size: 90%;
 }
+
+table.remedy {
+	border: 0px none;
+}
