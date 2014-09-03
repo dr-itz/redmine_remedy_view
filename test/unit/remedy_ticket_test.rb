@@ -55,4 +55,21 @@ class RemedyTicketTest < ActiveSupport::TestCase
     t.severity = 77
     assert_equal "Unknown", t.severity_s
   end
+
+  test "sla mapping" do
+    t = RemedyTicket.find(1)
+    t.calculate_sla
+
+    assert_equal "", t.sla_response
+    assert_equal "overdue", t.sla_restore
+    assert_equal "action-required", t.sla_resolve
+
+    t.target_resolve_date = Time.now - 10*60
+    t.calculate_sla
+    assert_equal "overdue", t.sla_resolve
+
+    t.target_resolve_date = Time.now + 10*60
+    t.calculate_sla
+    assert_equal "warn", t.sla_resolve
+  end
 end

@@ -9,3 +9,20 @@
 table.remedy {
 	border: 0px none;
 }
+
+.remedy.overdue {
+  background: url(../../../images/exclamation.png) 2px 3px no-repeat;
+  padding-left: 22px;
+  font-weight: bold;
+}
+.remedy.warn {
+  background: url(../../../images/warning.png) 2px 3px no-repeat;
+  padding-left: 22px;
+  font-weight: bold;
+}
+
+.remedy.action-required {
+  background: url(../../../images/edit.png) 2px 3px no-repeat;
+  padding-left: 22px;
+  font-weight: bold;
+}

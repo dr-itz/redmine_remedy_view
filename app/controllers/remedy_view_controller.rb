@@ -19,6 +19,7 @@ class RemedyViewController < ApplicationController
 
   def show
     @ticket = RemedyTicket.find(params[:id], include: :issues)
+    @ticket.calculate_sla
     @allowed_projects = Project.allowed_to(User.current, :add_issues)
 
     setup_new_issue(@project)

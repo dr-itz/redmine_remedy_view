@@ -77,19 +77,25 @@
   <table class="attributes">
     <tr>
       <th><%= l(:field_remedy_ticket_actual_respond_date) %></th>
-      <td><%= format_time(@ticket.actual_respond_date) %></td>
+      <td class="remedy <%= @ticket.sla_response %>">
+        <%= format_time(@ticket.actual_respond_date) %>
+      </td>
       <th><%= l(:field_remedy_ticket_target_respond_date) %></th>
       <td><%= format_time(@ticket.target_respond_date) %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_actual_restore_date) %></th>
-      <td><%= format_time(@ticket.actual_restore_date) %></td>
+      <td class="remedy <%= @ticket.sla_restore %>">
+        <%= format_time(@ticket.actual_restore_date) %>
+      </td>
       <th><%= l(:field_remedy_ticket_target_restore_date) %></th>
       <td><%= format_time(@ticket.target_restore_date) %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_actual_resolve_date) %></th>
-      <td><%= format_time(@ticket.actual_resolve_date) %></td>
+      <td class="remedy <%= @ticket.sla_resolve %>">
+        <%= format_time(@ticket.actual_resolve_date) %>
+      </td>
       <th><%= l(:field_remedy_ticket_target_resolve_date) %></th>
       <td><%= format_time(@ticket.target_resolve_date) %></td>
     </tr>

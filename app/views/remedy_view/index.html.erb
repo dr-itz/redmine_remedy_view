@@ -13,6 +13,7 @@
           <%= l(:field_created_on) %><br>
           <%= l(:field_updated_on) %>
         </th>
+        <th>TS</th>
         <th><%= l(:field_remedy_ticket_severity) %></th>
         <th>
           <%= l(:field_remedy_ticket_state) %><br>
@@ -30,7 +31,7 @@
         <% reset_cycle %>
         <% if @ticket_groups.length > 1 %>
           <tr class="group open">
-            <td colspan="6">
+            <td colspan="7">
               <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
               <%= tg[:filter].title %>
               <span class="count"><%= tg[:tickets].length %></span>
@@ -40,6 +41,7 @@
           </tr>
         <% end %>
         <% tg[:tickets].each do |t| %>
+          <% t.calculate_sla %>
           <tr class="<%= cycle('odd', 'even') %>">
             <td class="id">
               <%= link_to t.remedy_id, remedy_ticket_path(@project, t) %>
@@ -48,6 +50,7 @@
               <%= format_time(t.actual_reported_date) %><br>
               <%= format_time(t.last_modified_on) %>
             </td>
+            <td class="remedy <%= t.sla_overall %>"></td>
             <td class="priority"><%= t.severity_s %></td>
             <td class="status">
               <%= t.state_s %><br>
