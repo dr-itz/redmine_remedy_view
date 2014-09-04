@@ -47,7 +47,36 @@ directory:
 	setup. After the restart, configuration of the plugin can begin.
 
 
-FIXME: java part
+Next, the synchronisation needs to be configured, i.e. the two database
+connections:
+
+~~~~
+$ cd $REDMINE/plugins/redmine_remedy_view/java/config
+$ cp configuration.properties production.properties
+$ vi production.properties
+~~~~
+
+Configure the database connections accordingly. Also, check the file
+``config/sync.properties'' that defines the table and column names.
+Next, test the synchronisation:
+
+~~~~
+$ cd $REDMINE/plugins/redmine_remedy_view/java/
+$ chmod 755 ./dist/bin/Remedy2Redmine
+$ ./dist/bin/Remedy2Redmine config/production.properties sync
+~~~~
+
+If there's no error message, the synchronisation works. Create a little wrapper
+script like this in `plugins/redmine_remedy_view/sync_remedy.sh`:
+
+~~~~
+#!/bin/bash
+cd $(dirname $0)
+./java/dist/bin/Remedy2Redmine java/config/production.properties sync
+~~~~
+
+Make it executable (`chmod 755 sync_remedy.sh`) and call it from a cron job at
+regular intervals.
 
 
 ## Uninstallation
@@ -81,7 +110,12 @@ root directory.
 
 ## Usage
 
-FIXME
+  * Configure the Roles that need Remedy access with the Remdy permissions
+	``View Remedy Tickets'' and where appropriate the ``Configure Remedy
+	View''.
+  * In each project that needs the Remedy View, enable the Module
+  * In the ``Settings'' sub-tab ``Remedy'' define the filters.
+  * Check the ``Remedy'' tab in the project
 
 ## Development and test
 
