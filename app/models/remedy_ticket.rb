@@ -7,7 +7,8 @@ class RemedyTicket < ActiveRecord::Base
   has_many :issues, :through => :remedy_ticket_issues
 
   scope :by_remedy_filter, ->(filter) {
-    where(:owner_group => filter.group, :contract_number => filter.contract_number)
+    contract = filter.contract_number == '' ? nil : filter.contract_number
+    where(:owner_group => filter.group, :contract_number => contract)
   }
 
   scope :open, -> { where('state < ?', 6) }
