@@ -6,6 +6,7 @@ class RemedyViewController < ApplicationController
 
   helper :watchers
   helper :projects
+  helper :custom_fields
 
   def index
     @ticket_groups = []
