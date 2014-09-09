@@ -1,12 +1,10 @@
 # Redmine Remedy View
 
-**Warning: this is only lightly tested**
-
 Add a project module to view tickets from a Remedy AR installation. Redmine
 tickets can be created from a Remedy Ticket.
 
-This plugin is targeted at a specific Remedy installation and is not generic.
-Nevertheless it might serve as a base for another integration.
+**Note**: This plugin is targeted at a specific Remedy installation and is not
+generic. Nevertheless it might serve as a base for another integration.
 
 Requirements:
 
@@ -58,16 +56,24 @@ $ vi production.properties
 
 Configure the database connections accordingly. Also, check the file
 ``config/sync.properties'' that defines the table and column names.
+
+Before the synchronisation tool can be used, the code must be compiled
+
+~~~~
+$ cd $REDMINE/plugins/redmine_remedy_view/java/
+$ ant dist
+$ chmod 755 ./dist/bin/Remedy2Redmine
+~~~~
+
 Next, test the synchronisation:
 
 ~~~~
 $ cd $REDMINE/plugins/redmine_remedy_view/java/
-$ chmod 755 ./dist/bin/Remedy2Redmine
 $ ./dist/bin/Remedy2Redmine config/production.properties sync
 ~~~~
 
 If there's no error message, the synchronisation works. Create a little wrapper
-script like this in `plugins/redmine_remedy_view/sync_remedy.sh`:
+script like this in `$REDMINE/plugins/redmine_remedy_view/sync_remedy.sh`:
 
 ~~~~
 #!/bin/bash
@@ -79,7 +85,7 @@ Make it executable (`chmod 755 sync_remedy.sh`) and call it from a cron job at
 regular intervals.
 
 
-## Uninstallation
+## Uninstalling
 
 Uninstalling the plugin is easy as well. Again, execute from within the Redmine
 root directory.
