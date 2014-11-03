@@ -5,7 +5,7 @@
 
   <hr>
   <p><strong><%=l(:label_issues_related_remedy_tickets)%></strong></p>
-  <table class="list issues remedy">
+  <table class="list issues remedy-relations">
     <% issue.remedy_ticket_issues.each do |rel| %>
       <tr class="issue" id="remedy-<%= rel.remedy_ticket.remedy_id %>">
         <td class="id">

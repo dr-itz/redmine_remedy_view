@@ -6,8 +6,13 @@
 	font-size: 90%;
 }
 
-table.remedy {
+table.remedy-relations {
 	border: 0px none;
+}
+
+table.remedy tr td.created_on,
+table.remedy tr td.status {
+	white-space: nowrap;
 }
 
 .remedy.overdue {
