@@ -42,3 +42,6 @@ en:
   field_remedy_ticket_actual_resolve_date: Actual Resolve Time
   field_remedy_ticket_target_resolve_date: Target Resolve Time
   field_remedy_ticket_actual_closed_date: Closed Time
+
+  field_remedy_ticket_next_customer_contact_date: Next Customer Contact Date
+  field_remedy_ticket_nccd: NCCD

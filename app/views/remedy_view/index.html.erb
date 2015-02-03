@@ -14,6 +14,7 @@
           <%= l(:field_updated_on) %>
         </th>
         <th>TS</th>
+        <th><%= l(:field_remedy_ticket_nccd) %></th>
         <th><%= l(:field_remedy_ticket_severity) %></th>
         <th>
           <%= l(:field_remedy_ticket_state) %><br>
@@ -31,7 +32,7 @@
         <% reset_cycle %>
         <% if @ticket_groups.length > 1 %>
           <tr class="group open">
-            <td colspan="7">
+            <td colspan="8">
               <span class="expander" onclick="toggleRowGroup(this);">&nbsp;</span>
               <%= tg[:filter].title %>
               <span class="count"><%= tg[:tickets].length %></span>
@@ -50,7 +51,12 @@
               <%= format_time(t.actual_reported_date) %><br>
               <%= format_time(t.last_modified_on) %>
             </td>
-            <td class="remedy <%= t.sla_overall %>"></td>
+            <td>
+              <span class="remedy <%= t.sla_overall %>"></span>
+            </td>
+            <td title="<%= format_time(t.next_customer_contact_date) %>">
+              <span class="remedy <%= t.sla_nccd %>"></span>
+            </td>
             <td class="priority"><%= t.severity_s %></td>
             <td class="status">
               <%= t.state_s %><br>
@@ -58,7 +64,7 @@
             </td>
             <td class="subject">
               <%= link_to t.short_description , remedy_ticket_path(@project, t) %><br>
-              <span class="remedy-current-summary"><%= t.current_summary %></span>
+              <div class="remedy-current-summary"><%= t.current_summary %></div>
             </td>
             <td class="assigned_to"><%= t.assignee %></td>
           </tr>

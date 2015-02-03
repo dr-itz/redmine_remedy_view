@@ -1,7 +1,7 @@
 class RemedyTicket < ActiveRecord::Base
   unloadable
 
-  attr_reader :sla_response, :sla_restore, :sla_resolve
+  attr_reader :sla_response, :sla_restore, :sla_resolve, :sla_nccd
 
   has_many :remedy_ticket_issues
   has_many :issues, :through => :remedy_ticket_issues
@@ -57,6 +57,16 @@ class RemedyTicket < ActiveRecord::Base
     @sla_response = calculate_single_sla(actual_respond_date, target_respond_date, now, 15*60)
     @sla_restore = calculate_single_sla(actual_restore_date, target_restore_date, now, 6*60*60)
     @sla_resolve = calculate_single_sla(actual_resolve_date, target_resolve_date, now, 24*60*60)
+
+    if next_customer_contact_date.nil?
+      @sla_nccd = "overdue"
+    elsif now > next_customer_contact_date
+      @sla_nccd = "warn"
+    elsif now + 24*60*60 > next_customer_contact_date
+      @sla_nccd = "action-required"
+    else
+      @sla_nccd = ""
+    end
   end
 
   def sla_overall

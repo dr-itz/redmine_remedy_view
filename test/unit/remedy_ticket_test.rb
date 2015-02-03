@@ -62,14 +62,32 @@ class RemedyTicketTest < ActiveSupport::TestCase
 
     assert_equal "", t.sla_response
     assert_equal "overdue", t.sla_restore
-    assert_equal "action-required", t.sla_resolve
-
-    t.target_resolve_date = Time.now - 10*60
-    t.calculate_sla
     assert_equal "overdue", t.sla_resolve
+
+    t.target_resolve_date = Time.now + 10*24*60*60
+    t.calculate_sla
+    assert_equal "action-required", t.sla_resolve
 
     t.target_resolve_date = Time.now + 10*60
     t.calculate_sla
     assert_equal "warn", t.sla_resolve
+  end
+
+  test "nccd mapping" do
+    t = RemedyTicket.find(1)
+    t.calculate_sla
+    assert_equal "overdue", t.sla_nccd
+
+    t.next_customer_contact_date = Time.now + 2*24*60*60
+    t.calculate_sla
+    assert_equal "", t.sla_nccd
+
+    t.next_customer_contact_date = Time.now - 10*60
+    t.calculate_sla
+    assert_equal "warn", t.sla_nccd
+
+    t.next_customer_contact_date = Time.now + 23*60*60
+    t.calculate_sla
+    assert_equal "action-required", t.sla_nccd
   end
 end

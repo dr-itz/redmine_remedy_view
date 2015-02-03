@@ -15,6 +15,9 @@ table.remedy tr td.status {
 	white-space: nowrap;
 }
 
+span.remedy {
+  padding-bottom: 4px;
+}
 .remedy.overdue {
   background: url(../../../images/exclamation.png) 2px 3px no-repeat;
   padding-left: 22px;

@@ -108,12 +108,27 @@
   </table>
   <hr>
 
-  <div class="description">
-    <p><strong><%=l(:field_remedy_ticket_current_summary)%></strong></p>
-    <div class="wiki">
-      <%= @ticket.current_summary %>
-    </div>
-  </div>
+  <table class="attributes">
+    <tr>
+      <th><%= l(:field_remedy_ticket_next_customer_contact_date) %></th>
+      <td class="remedy <%= @ticket.sla_nccd %>">
+        <%= format_time(@ticket.next_customer_contact_date) %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= l(:field_remedy_ticket_current_summary) %></th>
+      <td>&nbsp;</td>
+      <th>&nbsp;</th>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div class="wiki">
+          <%= @ticket.current_summary %>
+        </div>
+      </td>
+    </tr>
+  </table>
   <hr>
 
   <p><strong><%=l(:label_remedy_view_redmine_issues)%></strong></p>
