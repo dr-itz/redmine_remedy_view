@@ -57,7 +57,10 @@
       <th><%= l(:field_assigned_to) %></th>
       <td><%= @ticket.assignee %></td>
       <th><%= l(:field_updated_on) %></th>
-      <td><%= format_time(@ticket.last_modified_on) %></td>
+      <td>
+        <%= format_time(@ticket.last_modified_on) %>
+        / <%= @ticket.last_modified_by %>
+      </td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_product) %></th>

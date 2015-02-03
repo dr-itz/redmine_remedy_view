@@ -24,7 +24,10 @@
           <%= l(:field_remedy_ticket_short_description) %><br>
           <span class="remedy-smaller"><%= l(:field_remedy_ticket_current_summary) %></span>
         </th>
-        <th><%= l(:field_assigned_to) %></th>
+        <th>
+          <%= l(:field_assigned_to) %><br>
+          <%= l(:field_remedy_ticket_last_modified_by) %>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -66,7 +69,10 @@
               <%= link_to t.short_description , remedy_ticket_path(@project, t) %><br>
               <div class="remedy-current-summary"><%= t.current_summary %></div>
             </td>
-            <td class="assigned_to"><%= t.assignee %></td>
+            <td class="assigned_to">
+              <%= t.assignee %><br>
+              <%= t.last_modified_by %>
+            </td>
           </tr>
         <% end %>
       <% end %>

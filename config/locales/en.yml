@@ -25,6 +25,7 @@ en:
   field_remedy_ticket_state: State
   field_remedy_ticket_state_reason: State Reason
   field_remedy_ticket_short_description: Short description
+  field_remedy_ticket_last_modified_by: Last modified
   field_remedy_ticket_current_summary: Last comment
   field_remedy_ticket_contact_company: Contact Company
   field_remedy_ticket_contact_email: Contact Email
