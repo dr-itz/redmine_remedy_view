@@ -58,7 +58,9 @@ class RemedyTicket < ActiveRecord::Base
     @sla_restore = calculate_single_sla(actual_restore_date, target_restore_date, now, 6*60*60)
     @sla_resolve = calculate_single_sla(actual_resolve_date, target_resolve_date, now, 24*60*60)
 
-    if next_customer_contact_date.nil?
+    if state == 7
+      @sla_nccd = ""
+    elsif next_customer_contact_date.nil?
       @sla_nccd = "overdue"
     elsif now > next_customer_contact_date
       @sla_nccd = "warn"
