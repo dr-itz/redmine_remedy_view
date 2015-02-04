@@ -21,21 +21,21 @@ class RemedyTicketTest < ActiveSupport::TestCase
   test "state mapping" do
     t = RemedyTicket.find(1)
 
-    t.state = 1
-    assert_equal "New", t.state_s
-    t.state = 2
-    assert_equal "Assigned", t.state_s
-    t.state = 3
-    assert_equal "Re-Assigned", t.state_s
-    t.state = 4
-    assert_equal "In Progress", t.state_s
-    t.state = 5
-    assert_equal "Pending", t.state_s
-    t.state = 6
-    assert_equal "Resolved", t.state_s
-    t.state = 7
-    assert_equal "Closed", t.state_s
     t.state = 0
+    assert_equal "New", t.state_s
+    t.state = 1
+    assert_equal "Assigned", t.state_s
+    t.state = 2
+    assert_equal "Re-Assigned", t.state_s
+    t.state = 3
+    assert_equal "In Progress", t.state_s
+    t.state = 4
+    assert_equal "Pending", t.state_s
+    t.state = 5
+    assert_equal "Resolved", t.state_s
+    t.state = 6
+    assert_equal "Closed", t.state_s
+    t.state = 77
     assert_equal "Unknown", t.state_s
   end
 

@@ -29,13 +29,13 @@ class RemedyTicket < ActiveRecord::Base
 
   def state_s
     case state
-      when 1 then "New"
-      when 2 then "Assigned"
-      when 3 then "Re-Assigned"
-      when 4 then "In Progress"
-      when 5 then "Pending"
-      when 6 then "Resolved"
-      when 7 then "Closed"
+      when 0 then "New"
+      when 1 then "Assigned"
+      when 2 then "Re-Assigned"
+      when 3 then "In Progress"
+      when 4 then "Pending"
+      when 5 then "Resolved"
+      when 6 then "Closed"
       else "Unknown"
     end
   end
