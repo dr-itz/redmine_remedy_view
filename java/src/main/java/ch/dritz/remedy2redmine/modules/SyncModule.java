@@ -1,5 +1,6 @@
 package ch.dritz.remedy2redmine.modules;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.mozilla.universalchardet.UniversalDetector;
 
 import ch.dritz.common.Config;
 import ch.dritz.remedy2redmine.db.DBUtils;
@@ -29,6 +32,8 @@ public class SyncModule
 	private int numCols;
 	private int numKeys;
 	private Conversion[] conversions;
+
+	private UniversalDetector charsetDetector = new UniversalDetector(null);
 
 	public SyncModule(Config config)
 	{
@@ -209,7 +214,7 @@ public class SyncModule
 
 			// insert or update
 			for (int i = 1; i <= numCols; i++) {
-				Object obj = convert(rs.getObject(i), conversions[i-1]);
+				Object obj = convert(rs, i, conversions[i-1]);
 				stmtInsertOrUpdate.setObject(i, obj);
 			}
 
@@ -225,8 +230,26 @@ public class SyncModule
 		rs.close();
 	}
 
-	private Object convert(Object obj, Conversion conversion)
+	private Object convert(ResultSet rs, int i, Conversion conversion)
+		throws SQLException
 	{
+		if (conversion == Conversion.FIXCHARSET) {
+			byte[] bytes = rs.getBytes(i);
+			if (bytes == null)
+				return null;
+			charsetDetector.handleData(bytes, 0, bytes.length);
+			charsetDetector.dataEnd();
+			String encoding = charsetDetector.getDetectedCharset();
+			charsetDetector.reset();
+			try {
+				if (encoding != null)
+					return new String(bytes, encoding);
+			} catch (UnsupportedEncodingException e) {
+			}
+			return rs.getObject(i);
+		}
+
+		Object obj = rs.getObject(i);
 		if (obj == null)
 			return null;
 
@@ -260,6 +283,7 @@ public class SyncModule
 		NONE,
 		TIMESTAMP,
 		CHAR_TO_INT,
+		FIXCHARSET,
 	}
 
 	private static class ColumnDefinition
@@ -289,6 +313,8 @@ public class SyncModule
 						conversion = Conversion.CHAR_TO_INT;
 					else if ("LastChangeTimestamp".equals(attr))
 						isLastChangeTs = true;
+					else if ("FixCharset".equals(attr))
+						conversion = Conversion.FIXCHARSET;
 				}
 			}
 		}

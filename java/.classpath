@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="lib/main/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="lib/main/mariadb-java-client-1.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/main/postgresql-9.3-1102.jdbc4.jar"/>
+	<classpathentry kind="lib" path="lib/main/juniversalchardet-1.0.3.jar"/>
 	<classpathentry kind="output" path="build/classes/main"/>
 </classpath>
