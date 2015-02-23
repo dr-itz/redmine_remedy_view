@@ -41,13 +41,16 @@ class RemedyTicket < ActiveRecord::Base
   end
 
   def severity_s
-    case severity
-      when 1 then "Not Valid"
-      when 2 then "Severity 1"
-      when 3 then "Severity 2"
-      when 4 then "Severity 3"
-      when 5 then "Severity 4"
-      else "Unknown"
+    "Sev. " + severity.to_s
+  end
+
+  def priority_s
+    case priority
+      when 1 then "Emergency"
+      when 2 then "High"
+      when 3 then "Medium"
+      when 4 then "Low"
+      else priority.to_s
     end
   end
 
@@ -58,7 +61,7 @@ class RemedyTicket < ActiveRecord::Base
     @sla_restore = calculate_single_sla(actual_restore_date, target_restore_date, now, 6*60*60)
     @sla_resolve = calculate_single_sla(actual_resolve_date, target_resolve_date, now, 24*60*60)
 
-    if state == 7
+    if state >= 6
       @sla_nccd = ""
     elsif next_customer_contact_date.nil?
       @sla_nccd = "overdue"

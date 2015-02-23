@@ -43,17 +43,22 @@ class RemedyTicketTest < ActiveSupport::TestCase
     t = RemedyTicket.find(1)
 
     t.severity = 1
-    assert_equal "Not Valid", t.severity_s
-    t.severity = 2
-    assert_equal "Severity 1", t.severity_s
-    t.severity = 3
-    assert_equal "Severity 2", t.severity_s
-    t.severity = 4
-    assert_equal "Severity 3", t.severity_s
-    t.severity = 5
-    assert_equal "Severity 4", t.severity_s
-    t.severity = 77
-    assert_equal "Unknown", t.severity_s
+    assert_equal "Sev. 1", t.severity_s
+  end
+
+  test "priority mapping" do
+    t = RemedyTicket.find(1)
+
+    t.priority = 1
+    assert_equal "Emergency", t.priority_s
+    t.priority = 2
+    assert_equal "High", t.priority_s
+    t.priority = 3
+    assert_equal "Medium", t.priority_s
+    t.priority = 4
+    assert_equal "Low", t.priority_s
+    t.priority = 5
+    assert_equal "5", t.priority_s
   end
 
   test "sla mapping" do
@@ -89,5 +94,9 @@ class RemedyTicketTest < ActiveSupport::TestCase
     t.next_customer_contact_date = Time.now + 23*60*60
     t.calculate_sla
     assert_equal "action-required", t.sla_nccd
+
+    t.state = 6
+    t.calculate_sla
+    assert_equal "", t.sla_nccd
   end
 end

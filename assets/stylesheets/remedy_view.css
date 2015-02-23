@@ -11,7 +11,8 @@ table.remedy-relations {
 }
 
 table.remedy tr td.created_on,
-table.remedy tr td.status {
+table.remedy tr td.status,
+table.remedy tr td.priority {
 	white-space: nowrap;
 }
 

@@ -20,8 +20,8 @@
     <tr>
       <th><%= l(:field_created_on) %></th>
       <td><%= format_time(@ticket.actual_reported_date) %></td>
-      <th><%= l(:field_remedy_ticket_severity) %></th>
-      <td><%= @ticket.severity_s %></td>
+      <th><%= l(:field_remedy_ticket_severity) %> / <%= l(:field_remedy_ticket_priority) %></th>
+      <td><%= @ticket.severity_s %> / <%= @ticket.priority_s %></td>
     </tr>
     <tr>
       <th><%= l(:field_remedy_ticket_request_type) %></th>

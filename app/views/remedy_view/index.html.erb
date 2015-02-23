@@ -15,7 +15,10 @@
         </th>
         <th>TS</th>
         <th><%= l(:field_remedy_ticket_nccd) %></th>
-        <th><%= l(:field_remedy_ticket_severity) %></th>
+        <th>
+          <%= l(:field_remedy_ticket_severity) %><br>
+          <%= l(:field_remedy_ticket_priority) %>
+        </th>
         <th>
           <%= l(:field_remedy_ticket_state) %><br>
           <span class="remedy-smaller"><%= l(:field_remedy_ticket_state_reason) %></span>
@@ -60,7 +63,10 @@
             <td title="<%= format_time(t.next_customer_contact_date) %>">
               <span class="remedy <%= t.sla_nccd %>"></span>
             </td>
-            <td class="priority"><%= t.severity_s %></td>
+            <td class="priority">
+              <%= t.severity_s %><br>
+              <%= t.priority_s %>
+            </td>
             <td class="status">
               <%= t.state_s %><br>
               <span class="remedy-smaller"><%= t.state_reason %></span>

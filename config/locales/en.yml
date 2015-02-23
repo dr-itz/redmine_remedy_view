@@ -18,6 +18,7 @@ en:
   field_remedy_filter_contract: Contract in Remedy
 
   field_remedy_ticket_severity: Severity
+  field_remedy_ticket_priority: Priority
   field_remedy_ticket_site: Site
   field_remedy_ticket_site_company: Site Company
   field_remedy_ticket_request_type: Request Type
