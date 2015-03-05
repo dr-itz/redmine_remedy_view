@@ -51,7 +51,7 @@
       <th><%= l(:field_remedy_ticket_contact_phone) %></th>
       <td><%= @ticket.contact_phone %></td>
       <th><%= l(:field_remedy_ticket_contact_additional) %></th>
-      <td><%= Redmine::WikiFormatting.to_html("null", @ticket.additional_contact_info) %></td>
+      <td><%= Redmine::WikiFormatting.to_html("null", @ticket.additional_contact_info || "") %></td>
     </tr>
     <tr>
       <th><%= l(:field_assigned_to) %></th>
