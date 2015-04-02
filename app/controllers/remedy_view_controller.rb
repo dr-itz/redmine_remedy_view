@@ -6,6 +6,7 @@ class RemedyViewController < ApplicationController
 
   helper :watchers
   helper :projects
+  helper :issues
   helper :custom_fields
 
   def index
@@ -19,7 +20,7 @@ class RemedyViewController < ApplicationController
   end
 
   def show
-    @ticket = RemedyTicket.find(params[:id], include: :issues)
+    @ticket = RemedyTicket.includes(:issues).find(params[:id])
     @ticket.calculate_sla
     @allowed_projects = Project.allowed_to(User.current, :add_issues)
 
@@ -49,7 +50,7 @@ class RemedyViewController < ApplicationController
     @issue.project = project
     @issue.author = User.current
     @issue.subject = @ticket.short_description
-    @issue.tracker = project.trackers.find(:first)
+    @issue.tracker = project.trackers.first
     @issue.start_date = Date.today if Setting.default_issue_start_date_to_creation_date?
 
     @priorities = IssuePriority.active

@@ -27,6 +27,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
 # It works like the normal #fixtures but uses the plugin's fixture instead
 class ActiveSupport::TestCase
   def self.plugin_fixtures(*symbols)
-    ActiveRecord::Fixtures.create_fixtures(File.dirname(__FILE__) + '/fixtures/', symbols)
+    ActiveRecord::FixtureSet.create_fixtures(File.dirname(__FILE__) + '/fixtures/', symbols)
   end
 end

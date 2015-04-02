@@ -4,7 +4,10 @@ class RemedyViewConfigController < ApplicationController
   before_filter :find_project_by_project_id, :authorize
 
   def create
-    @remedy_filter = RemedyFilter.new(params[:remedy_filter])
+    @remedy_filter = RemedyFilter.new
+    @remedy_filter.title = params[:remedy_filter][:title]
+    @remedy_filter.group = params[:remedy_filter][:group]
+    @remedy_filter.contract_number = params[:remedy_filter][:contract_number]
     @remedy_filter.project = @project
 
     if @remedy_filter.save
