@@ -11,7 +11,8 @@ class RemedyViewConfigShowTest < ActionDispatch::IntegrationTest
   end
 
   test "should show settings" do
-    log_user('jsmith', 'jsmith')
+    post "/login", :username => 'jsmith', :password => 'jsmith'
+
     get "/projects/1/settings/remedy_view"
 
     assert_response 200
